@@ -15,7 +15,7 @@ import java.util.List;
 
 public class NotesDatabase extends SQLiteOpenHelper {
 
-    public  static  final int DB_VERSION = 2;
+    public static final int DB_VERSION = 2;
     public static String DB_NAME = "NotesDB.db";
     public static String DB_TABLE = "NotesTAble";
 
@@ -30,77 +30,78 @@ public class NotesDatabase extends SQLiteOpenHelper {
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
-        String query = "CREATE TABLE "+ DB_TABLE + "("
-                + COLUMN_ID + "INTEGER PRIMARY KEY AUTOINCREMENT," +
-                COLUMN_TITLE + "TEXT,"+
-                COLUMN_DETAILS + "TEXT,"+
-                COLUMN_DATE + "TEXT,"+
-                COLUMN_TIME + "TEXT" + ")";
+    public void onCreate(SQLiteDatabase database) {
+        String query = "CREATE TABLE " + DB_TABLE +
+                "(" + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,  " +
+                COLUMN_TITLE + " TEXT, " +
+                COLUMN_DETAILS + " TEXT, " +
+                COLUMN_DATE + " TEXT, " +
+                COLUMN_TIME + " TEXT " + ")";
 
-        db.execSQL(query);
+        database.execSQL(query);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
-       if (i > i1)
-           return;
-       db.execSQL("DROP TABLE IF EXISTS " + DB_NAME);
+        if (i > i1)
+            return;
+        db.execSQL("DROP TABLE IF EXISTS " + DB_NAME);
 
     }
-    public long AddNote(NotesModel notesModel){
-       SQLiteDatabase db= this.getWritableDatabase();
-        ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_TITLE,notesModel.getNotetitle());
-        contentValues.put(COLUMN_DETAILS,notesModel.getNoteDetails());
-        contentValues.put(COLUMN_DATE,notesModel.getNoteDate());
-        contentValues.put(COLUMN_TIME,notesModel.getNoteTime());
 
-     long ID = db.insert(DB_TABLE,null,contentValues);
-        Log.d("Inserted", "AddNote: "+ID);
+    public long AddNote(NotesModel notesModel) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COLUMN_TITLE, notesModel.getNotetitle());
+        contentValues.put(COLUMN_DETAILS, notesModel.getNoteDetails());
+        contentValues.put(COLUMN_DATE, notesModel.getNoteDate());
+        contentValues.put(COLUMN_TIME, notesModel.getNoteTime());
+
+        long ID = db.insert(DB_TABLE, null, contentValues);
+        Log.d("Inserted", "AddNote: " + ID);
         return ID;
     }
-    public List<NotesModel> getNote(){
+
+    public List<NotesModel> getNote() {
+        String TAG = "abc";
         SQLiteDatabase db = this.getReadableDatabase();
-        List<NotesModel> allnote = new ArrayList<>();
+        List<NotesModel> allnote = new ArrayList<NotesModel>();
 
-        String queryStatement = "SELECT  * FROM " + DB_TABLE;
-        Cursor cursor = db.rawQuery(queryStatement,null);
+        String queryStatement = " SELECT  * FROM " + DB_TABLE;
+        Cursor cursor = db.rawQuery(queryStatement, null);
 
-        if (cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             do {
 
                 NotesModel notesModel = new NotesModel();
-                notesModel.setId(cursor.getInt(0));
-                notesModel.setNotetitle(cursor.getString(1));
-                notesModel.setNoteDetails(cursor.getString(2));
-                notesModel.setNoteDate(cursor.getString(3));
-                notesModel.setNoteTime(cursor.getString(4));
-
+                notesModel.setId(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)));
+                notesModel.setNotetitle(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)));
+                notesModel.setNoteDetails(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DETAILS)));
+                notesModel.setNoteDate(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)));
+                notesModel.setNoteTime(cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME)));
                 allnote.add(notesModel);
-
-            }while(cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
         return allnote;
     }
+
     public NotesModel getNotes(int id) {
         SQLiteDatabase db = this.getReadableDatabase();
         String[] query = new String[]{COLUMN_ID, COLUMN_TITLE, COLUMN_DETAILS, COLUMN_DATE, COLUMN_TIME};
-        Cursor cursor = db.query(DB_TABLE, query, COLUMN_ID + "=?", new String[]{String.valueOf(id)}, null, null, null, null);
+        Cursor cursor = db.query(DB_TABLE, query, COLUMN_ID + " =? ", new String[]{String.valueOf(id)}, null, null, null, null);
         if (cursor != null)
             cursor.moveToFirst();
 
-        return new NotesModel(
-                Integer.parseInt(cursor.getString(0)),
-                cursor.getString(1),
-                cursor.getString(2),
-                cursor.getString(3),
-                cursor.getString(4));
-        }
-        void deleteNote(int id){
-         SQLiteDatabase db = this.getReadableDatabase();
-         db.delete(DB_TABLE,COLUMN_ID+"=?",new String[]{String.valueOf(id)});
-         db.close();
-        }
+        return new NotesModel(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TITLE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DETAILS)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_DATE)),
+                cursor.getString(cursor.getColumnIndexOrThrow(COLUMN_TIME)));
     }
+    void deleteNote(int id) {
+        SQLiteDatabase db = this.getReadableDatabase();
+        db.delete(DB_TABLE, COLUMN_ID + " =? ", new String[]{String.valueOf(id)});
+        db.close();
+    }
+}
 

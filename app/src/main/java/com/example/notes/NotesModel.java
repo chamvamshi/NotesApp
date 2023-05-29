@@ -7,8 +7,12 @@ public class NotesModel {
     String NoteDate;
     String NoteTime;
 
-    public NotesModel() {
-        this.Notetitle = notetitle;
+    NotesModel(){
+
+    }
+
+    public NotesModel(String notetitle, String noteDetails, String noteDate, String noteTime) {
+        this.Notetitle = notetitle;       //iska error haara
         this.NoteDetails = noteDetails;
         this.NoteDate = noteDate;
         this.NoteTime = noteTime;
@@ -21,6 +25,8 @@ public class NotesModel {
         this.NoteDate = noteDate;
         this.NoteTime = noteTime;
     }
+
+
 
 
     public int getId() {

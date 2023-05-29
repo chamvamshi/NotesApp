@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,10 +34,10 @@ public class MainActivity extends AppCompatActivity {
         layoutManager.setReverseLayout(true);
         layoutManager.setStackFromEnd(true);
 
-        recyclerView.setLayoutManager(layoutManager);
-        adapter =  new Adapter(this,notesModelsList);
-        recyclerView.setAdapter(adapter);
 
+        adapter = new Adapter(this, notesModelsList);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(adapter);
 
 
     }
@@ -50,10 +51,10 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == R.id.add);
+        if (item.getItemId() == R.id.add) {
             Intent AddActivity = new Intent(MainActivity.this, AddActivity.class);
             startActivity(AddActivity);
-
+        }
         return super.onOptionsItemSelected(item);
     }
 }

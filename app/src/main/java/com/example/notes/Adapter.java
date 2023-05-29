@@ -2,6 +2,7 @@ package com.example.notes;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +19,16 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     LayoutInflater inflater;
     List<NotesModel> notesModels;
 
-    Adapter(Context context, List<NotesModel> notesModels){
+    Adapter(Context context, List<NotesModel> notesModels) {
         this.inflater = LayoutInflater.from(context);
         this.notesModels = notesModels;
     }
+
     @NonNull
     @Override
     public Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = inflater.inflate(R.layout.note_view,parent,false);
-         return new ViewHolder(view);
+        View view = inflater.inflate(R.layout.note_view, parent, false);
+        return new ViewHolder(view);
 
     }
 
@@ -34,8 +36,11 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
 
         String title = notesModels.get(position).getNotetitle();
+        Log.d("tit", "onBindViewHolder: title"+title);
         String Date = notesModels.get(position).getNoteDate();
+        Log.d("date", "onBindViewHolder: Date"+Date);
         String time = notesModels.get(position).getNoteTime();
+        Log.d("time", "onBindViewHolder: time"+time);
 
         holder.nTitle.setText(title);
         holder.nDate.setText(Date);
@@ -50,7 +55,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        TextView nTitle,nDate,nTime;
+        TextView nTitle, nDate, nTime;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             nTitle = itemView.findViewById(R.id.ntitle);
@@ -61,8 +67,8 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent = new Intent(v.getContext(),DetailsActivity.class);
-                    intent.putExtra("ID",notesModels.get(getAdapterPosition()).getId());
+                    Intent intent = new Intent(v.getContext(), DetailsActivity.class);
+                    intent.putExtra("ID", notesModels.get(getAdapterPosition()).getId());
                     v.getContext().startActivity(intent);
                 }
             });
