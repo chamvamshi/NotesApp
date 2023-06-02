@@ -2,7 +2,6 @@ package com.example.notes;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -53,7 +52,6 @@ public class NotesDatabase extends SQLiteOpenHelper {
     public long AddNote(NotesModel notesModel) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put(COLUMN_ID,notesModel.getId());
         contentValues.put(COLUMN_TITLE, notesModel.getNotetitle());
         contentValues.put(COLUMN_DETAILS, notesModel.getNoteDetails());
         contentValues.put(COLUMN_DATE, notesModel.getNoteDate());
@@ -96,7 +94,7 @@ public class NotesDatabase extends SQLiteOpenHelper {
         if (cursor != null)
             cursor.moveToFirst();
 
-        Log.d("col", "getNotes: "+COLUMN_TITLE);
+        Log.d("col", "getNotes: " + COLUMN_TITLE);
 
         return new
                 NotesModel(cursor.getInt(cursor.getColumnIndexOrThrow(COLUMN_ID)),

@@ -34,13 +34,10 @@ public class Adapter extends RecyclerView.Adapter<Adapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull Adapter.ViewHolder holder, int position) {
-
-        String title = notesModels.get(position).getNotetitle();
-        Log.d("tit", "onBindViewHolder: title"+title);
-        String Date = notesModels.get(position).getNoteDate();
-        Log.d("date", "onBindViewHolder: Date"+Date);
-        String time = notesModels.get(position).getNoteTime();
-        Log.d("time", "onBindViewHolder: time"+time);
+        NotesModel note = notesModels.get(position);
+        String title = note.getNotetitle();
+        String Date = note.getNoteDate();
+        String time = note.getNoteTime();
 
         holder.nTitle.setText(title);
         holder.nDate.setText(Date);

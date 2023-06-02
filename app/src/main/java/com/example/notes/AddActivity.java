@@ -1,8 +1,5 @@
 package com.example.notes;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -10,6 +7,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
 
@@ -33,16 +33,16 @@ public class AddActivity extends AppCompatActivity {
 
         calendar = Calendar.getInstance();
         todaydate = calendar.get(Calendar.YEAR) + "/" + calendar.get(Calendar.MONTH) + "/" + calendar.get(Calendar.DAY_OF_MONTH);
-        currentTime =pad(calendar.get(Calendar.HOUR) )+ ":" +pad(calendar.get(Calendar.MINUTE));
+        currentTime = pad(calendar.get(Calendar.HOUR)) + ":" + pad(calendar.get(Calendar.MINUTE));
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotesModel notesModel = new NotesModel(title.getText().toString(),details.getText().toString(),todaydate,currentTime );
+                NotesModel notesModel = new NotesModel(title.getText().toString(), details.getText().toString(), todaydate, currentTime);
                 NotesDatabase dbase = new NotesDatabase(AddActivity.this);
                 dbase.AddNote(notesModel);
 
-                Intent intent = new Intent(AddActivity.this,MainActivity.class);
+                Intent intent = new Intent(AddActivity.this, MainActivity.class);
                 startActivity(intent);
                 Toast.makeText(AddActivity.this, "note saved ", Toast.LENGTH_SHORT).show();
             }
@@ -50,7 +50,8 @@ public class AddActivity extends AppCompatActivity {
 
 
     }
-    public String pad ( int i){
+
+    public String pad(int i) {
         if (i < 0)
             return "0" + i;
         return String.valueOf(i);
@@ -59,10 +60,11 @@ public class AddActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home);{
+        if (item.getItemId() == android.R.id.home) ;
+        {
             finish();
             return true;
         }
-      // return super.onOptionsItemSelected(item);
+        // return super.onOptionsItemSelected(item);
     }
 }
