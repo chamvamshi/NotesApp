@@ -38,13 +38,12 @@ public class AddActivity extends AppCompatActivity {
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NotesModel notesModel = new NotesModel();
+                NotesModel notesModel = new NotesModel(title.getText().toString(),details.getText().toString(),todaydate,currentTime );
                 NotesDatabase dbase = new NotesDatabase(AddActivity.this);
                 dbase.AddNote(notesModel);
 
                 Intent intent = new Intent(AddActivity.this,MainActivity.class);
                 startActivity(intent);
-
                 Toast.makeText(AddActivity.this, "note saved ", Toast.LENGTH_SHORT).show();
             }
         });
